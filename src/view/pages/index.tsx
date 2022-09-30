@@ -10,39 +10,36 @@ import styles from '../styles/pages/index.module.css';
 import Tweet from '../components/data-display/Tweet/tweet';
 // import { Container } from './styles';
 
-const tweet = {
-  date: new Date(),
-  text: 'Meu primeiro Tweet',
-  user: {
-    name: 'Jane Doe',
-    username: '@janedoe',
-    picture: 'https://github.com/carlosvinicius3258.png',
-  },
-};
 const Index: React.FC = () => {
-  let { user } = useIndex();
+  let { indexGetController, indexHandleController } = useIndex();
+  let { maxTextLength, sortedTweetList, text, user } = indexGetController;
+  let { onTextChange, sendTweet } = indexHandleController;
   return (
     <div>
-      <h1 className={styles['page-title']}>BootTweet</h1>
+      <h1 className={styles['page-title']}>BooTweet</h1>
       <div className={styles['tweet-container']}>
         <img src={user.user.picture} alt='' className={styles['avatar']} />
-        <TextInput />
+        <TextInput
+          rows={6}
+          value={text}
+          maxLength={maxTextLength}
+          onChange={onTextChange}
+          placeholder={'O que está acontencendo?'}
+        />
       </div>
       <div className={styles['button-container']}>
-        <div>0 / 150</div>
-        <button className={styles['post-button']}>Tweetar</button>
+        <div>{text.length} / 150</div>
+        <button disabled={text.length === 0} onClick={sendTweet} className={styles['post-button']}>
+          Tweetar
+        </button>
       </div>
 
       <ul className={styles['tweet-list']}>
-        <li className={styles['tweet-list-item']}>
-          <Tweet tweet={tweet} />
-        </li>
-        <li className={styles['tweet-list-item']}>
-          <Tweet tweet={tweet} />
-        </li>
-        <li className={styles['tweet-list-item']}>
-          <Tweet tweet={tweet} />
-        </li>
+        {sortedTweetList?.map((tweet: any, id: any) => (
+          <li key={tweet.id} className={styles['tweet-list-item']}>
+            <Tweet tweet={tweet.data} />
+          </li>
+        ))}
       </ul>
     </div>
   );
