@@ -1,5 +1,5 @@
 import { ApiService } from './../../service/ApiService';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import TweetModel from '../../../model/Tweet';
 import useApi from '../userApi';
 import { mutate } from 'swr';
@@ -15,7 +15,7 @@ const useIndex = () => {
       username: '@janedoe',
     },
   };
-
+  // TODO: corrigir ordenação de tweets por ordem de data de postagem
   const [text, setText] = useState<string>('');
 
   let tweetList: any = useApi('tweets');
